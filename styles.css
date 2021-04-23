@@ -1,0 +1,96 @@
+@import url('https://fonts.googleapis.com/css2?family=Gaegu&display=swap');
+
+*, *::after, *::before {
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+
+:root {
+    --black: #333;
+    --white: #f3f3f3;
+}
+
+a {
+    text-decoration: none;
+    color: var(--white);
+}
+
+body {
+    background-color: #333;
+    font-family: Gaegu, sans-serif;
+    font-weight: 100;
+    color: var(--white);
+}
+
+#intro {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 90vmin;
+    margin: 0 auto;
+}
+
+#game-mode, a {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    color: var(--white);
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 10px;
+    font-family: Gaegu, sans-serif;
+    font-size: 2em;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+#game-mode:hover, a:hover {
+    text-shadow: 0 2px 10px var(--white);
+}
+
+#result {
+    height: 7vmin;
+    color: white;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2em;
+}
+
+#board {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    width: 90vmin;
+    height: 90vmin;
+    margin: 0 auto;
+    transform: skew(0, -2deg);
+}
+
+.cell {
+    border: 1px solid var(--white);
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    font-size: 5em;
+    height: calc(90vmin / 3);
+    width: calc(90vmin / 3);
+}
+
+.cell:first-child, .cell:nth-child(2), .cell:nth-child(3) {
+    border-top-color: transparent;
+}
+.cell:first-child, .cell:nth-child(4), .cell:nth-child(7) {
+    border-left-color: transparent;
+}
+
+.cell:last-child, .cell:nth-child(7), .cell:nth-child(8){
+    border-bottom-color: transparent;
+}
+
+.cell:nth-child(3), .cell:nth-child(6), .cell:last-child{
+    border-right-color: transparent;
+}
