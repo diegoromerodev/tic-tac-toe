@@ -23,7 +23,6 @@ const gameBoard = (function() {
     }
 
     function updateCell(row, column, letter) {
-        console.log('THis runs last')
         this.board[row][column] = letter
     }
 
@@ -50,14 +49,11 @@ const Player = (name, letter) => {
 
     //9. receive row and col values from gameLop
     function makeMove(row, column) {
-        console.log('This runs after')
-        console.log(gameBoard.board)
         //10. will asume is computer move if no row or column (go to Player computerChoice)
         if (isNaN(row) || isNaN(column)) [row, column] = this.computerChoice(gameBoard.board)
-        //11. if is already filled, return
+        //10b. if is already filled, return
         else if (gameBoard.board[row][column] !== null) return;
         gameBoard.updateCell(row, column, this.pLetter)
-        console.log({row, column})
     }
 
     function computerChoice(arr){
@@ -89,7 +85,6 @@ const Player = (name, letter) => {
                 diagResult = `${arr[0][0]}${arr[1][1]}${arr[2][2]}`;
             } else if (i === 2) {
                 diagResult = `${arr[0][2]}${arr[1][1]}${arr[2][0]}`;
-                console.log('currentarray',arr)
             }
 
             if (rowResult === 'nullOO' || rowResult === 'nullXX') possPlays.push([i, 0, 1])
@@ -101,23 +96,17 @@ const Player = (name, letter) => {
             if (diagResult === 'nullOO' || diagResult === 'nullXX') i === 0 ? possPlays.push([0, 0, 1]) : possPlays.push([0, 2, 1]);
             if (diagResult === 'OnullO' || diagResult === 'XnullX') possPlays.push([1, 1, 1])
             if (diagResult === 'OOnull' || diagResult === 'XXnull') i === 0 ? possPlays.push([2, 2, 1]) : possPlays.push([2, 0, 1])
-
-            console.log({rowResult, colResult, diagResult})
-            console.log({possPlays})
         }
 
         
         let thisPlay = possPlays[Math.floor(Math.random() * possPlays.length)]
         if (!thisPlay[2]) thisPlay = possPlays[Math.floor(Math.random() * possPlays.length)]
         let juice = arr[thisPlay[0]][thisPlay[1]]
-        console.log({juice})
         while (juice !== null){
-            console.log({juice})
             thisPlay = possPlays[Math.floor(Math.random() * possPlays.length)]
             juice = arr[thisPlay[0]][thisPlay[1]]
         }
         if (!thisPlay[2]) thisPlay = possPlays[Math.floor(Math.random() * possPlays.length)]
-        console.log({thisPlay})
         return thisPlay
     }
     return {name, pLetter, makeMove, computerChoice}
@@ -153,8 +142,6 @@ const gameLoop = (function() {
             return e.target.dataset
         })()
 
-        console.log(row-1, column-1)
-
         //8. check which player's move (go to Player makeMove)
         if (!secondPlayer){
             player1.makeMove(row-1, column-1)
@@ -173,12 +160,23 @@ const gameLoop = (function() {
         if (secondPlayer && !pvp && !hasWinner && hasMovesLeft) makeMove();
 
     }
+
+    document.querySelectorAll('#player-names input').forEach(el => {
+        el.addEventListener('change', (e) => {
+            if (e.target.id === 'p1-name') return player1.name = el.value
+            player2.name = el.value
+        })
+    })
+
+    document.querySelector('#reset-game').addEventListener('click', resetGame)
+
     const modeBtn = document.querySelector('#game-mode')
     modeBtn.addEventListener('click', changeMode)
 
     function changeMode(){
         pvp = !pvp
         modeBtn.innerHTML = pvp ? '<i class="fas fa-user-friends"></i>&nbsp;2P' : '<i class="fas fa-robot"></i>&nbsp;AI'
+        resetGame()
     }
 
     changeMode()
@@ -219,7 +217,7 @@ const gameLoop = (function() {
         }
 
         if (hasWinner) {
-            const winnerText = secondPlayer ? `${player1.name.toUpperCase()} WINS` : 'COMPUTER WINS'
+            const winnerText = secondPlayer ? `${player1.name.toUpperCase()} WINS` : `${pvp ? player2.name.toUpperCase() : 'THE ROBOT'} WINS`
             document.querySelector('#result').textContent = winnerText
             //resetGame()
         } else if (!hasMovesLeft) {
@@ -228,7 +226,6 @@ const gameLoop = (function() {
     }
 
     function resetGame() {
-        console.log('RUNS')
         document.querySelector('#result').textContent = 'TIC-TAC-TOE (with AI!)'
         hasWinner = false
         hasMovesLeft = true

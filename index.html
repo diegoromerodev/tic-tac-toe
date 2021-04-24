@@ -7,12 +7,23 @@
     </head>
     <body>
         <header id="intro">
-            <a href="https://github.com/diegoromerodev">GITHUB</a>
             <span id ="result">TIC-TAC-TOE (with AI!)</span>
-            <button id="game-mode">
-            </button>
+            <div id="buttons">
+                <button id="game-mode"></button>
+                <button id="reset-game"><i class="fas fa-undo-alt"></i>&nbsp;RESET</button>
+            </div>
         </header>
         <div id="board"></div>
+        <div id="player-names">
+            <span>
+                <label for="p1-name">PLAYER 1'S NAME:</label>
+                <input name="p1-name" id="p1-name" type="text" maxlength="8">
+            </span>
+            <span>
+                <label for="p1-name">PLAYER 2'S NAME:</label>
+                <input name="p1-name" id="p2-name" type="text" maxlength="8">
+            </span>
+        </div>
         <script src="app.js"></script>
     </body>
 </html>
